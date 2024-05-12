@@ -26,7 +26,7 @@ public partial class MainWindow : INotifyPropertyChanged
         GetJsonData();
     }
 
-    private string JsonPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\MakeModFolder.saved.json";
+    private readonly string JsonPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\MakeModFolder.saved.json";
 
     private void SetJsonData()
     {
@@ -86,17 +86,17 @@ public partial class MainWindow : INotifyPropertyChanged
 
         // Copy the data folder and zip it
         var directories = Directory.GetDirectories(RepoPath);
-        var isDatazipped = false;
-        var isLocalizationzipped = false;
+        var isDataZipped = false;
+        var isLocalizationZipped = false;
         var isTablesZipped = false;
         foreach (var directory in directories)
         {
-            if (directory.Contains("Data") && !isDatazipped)
+            if (directory.Contains("Data") && !isDataZipped)
             {
                 var dataPath = modPath + "\\Data\\Data.pak";
                 ZipFile.CreateFromDirectory(directory, dataPath, CompressionLevel.Optimal,
                     false);
-                isDatazipped = true;
+                isDataZipped = true;
             }
 
             if (directory.Contains("Libs") && !isTablesZipped)
@@ -107,7 +107,7 @@ public partial class MainWindow : INotifyPropertyChanged
                 isTablesZipped = true;
             }
 
-            if (directory.Contains("Localization") && !isLocalizationzipped)
+            if (directory.Contains("Localization") && !isLocalizationZipped)
             {
                 var localizationDirectories = Directory.GetDirectories(directory);
 
@@ -125,14 +125,14 @@ public partial class MainWindow : INotifyPropertyChanged
                         CompressionLevel.Optimal, false);
                 }
 
-                isLocalizationzipped = true;
+                isLocalizationZipped = true;
             }
 
-            if (isDatazipped && isLocalizationzipped && isTablesZipped)
+            if (isDataZipped && isLocalizationZipped && isTablesZipped)
                 break;
         }
 
-        if (!isDatazipped)
+        if (!isDataZipped)
         {
             MessageBox.Show("The data folder is missing", "Warning", MessageBoxButton.OK,
                 MessageBoxImage.Warning);
@@ -146,7 +146,7 @@ public partial class MainWindow : INotifyPropertyChanged
             return;
         }
 
-        if (!isLocalizationzipped)
+        if (!isLocalizationZipped)
         {
             MessageBox.Show("The localization folder is missing", "Warning", MessageBoxButton.OK,
                 MessageBoxImage.Warning);
@@ -263,7 +263,7 @@ public partial class MainWindow : INotifyPropertyChanged
         if (!string.IsNullOrEmpty(ModName) && !string.IsNullOrEmpty(RepoPath) &&
             !string.IsNullOrEmpty(GamePath) && !string.IsNullOrEmpty(ModVersion))
         {
-            //check if the mod already exists and if i can access it (if it's not in use)
+            //check if the mod already exists and if I can access it (if it's not in use)
             var modPath = GamePath + "\\Mods\\" + ModName;
             if (Directory.Exists(modPath))
             {
@@ -291,7 +291,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private string _modName = "";
 
-    public string ModName
+    private string ModName
     {
         get => _modName;
 
@@ -307,7 +307,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private string _repoPath = "";
 
-    public string RepoPath
+    private string RepoPath
     {
         get => _repoPath;
 
@@ -323,7 +323,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private string _gamePath = "";
 
-    public string GamePath
+    private string GamePath
     {
         get => _gamePath;
 
@@ -339,7 +339,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private string _modVersion = "0.1";
 
-    public string ModVersion
+    private string ModVersion
     {
         get => _modVersion;
         set
@@ -354,7 +354,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private string _isMapModified = "False";
 
-    public string IsMapModified
+    private string IsMapModified
     {
         get => _isMapModified;
 
@@ -375,15 +375,21 @@ public partial class MainWindow : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    [GeneratedRegex("[^0-9.]+")]
+    private static partial Regex NumberValidation();
+
     private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
     {
-        Regex regex = new Regex("[^0-9.]+");
+        var regex = NumberValidation();
         e.Handled = regex.IsMatch(e.Text);
     }
 
+    [GeneratedRegex("[^a-zA-Z0-9_]+")]
+    private static partial Regex NonSpecialCharValidation();
+
     private void NonSpecialCharValidationTextBox(object sender, TextCompositionEventArgs e)
     {
-        Regex regex = new Regex("[^a-zA-Z0-9_]+");
+        var regex = NonSpecialCharValidation();
         e.Handled = regex.IsMatch(e.Text);
     }
 }
