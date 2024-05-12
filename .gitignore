@@ -1,3 +1,6 @@
+# Ignore the .idea directory
+.idea/
+
 # Ignore the bin directory
 **/bin/
 
