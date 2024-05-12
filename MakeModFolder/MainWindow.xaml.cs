@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Xml;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
+// ReSharper disable InconsistentNaming
 // ReSharper disable UseVerbatimString
 
 namespace MakeModFolder;
@@ -48,11 +49,14 @@ public partial class MainWindow : INotifyPropertyChanged
         {
             var json = File.ReadAllText(JsonPath);
             var data = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
-            ModName = data["ModName"];
-            GamePath = data["GamePath"];
-            RepoPath = data["RepoPath"];
-            ModVersion = data["ModVersion"];
-            IsMapModified = data["IsMapModified"];
+            if (data != null)
+            {
+                ModName = data["ModName"];
+                GamePath = data["GamePath"];
+                RepoPath = data["RepoPath"];
+                ModVersion = data["ModVersion"];
+                IsMapModified = data["IsMapModified"];
+            }
         }
     }
 
@@ -244,7 +248,6 @@ public partial class MainWindow : INotifyPropertyChanged
             {
                 isGame = true;
                 GamePath = openFileDialog.FileName;
-                SetJsonData();
             }
 
             if (!isGame)
