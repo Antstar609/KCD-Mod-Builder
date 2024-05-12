@@ -1,0 +1,8 @@
+# Ignore the bin directory
+**/bin/
+
+# Ignore the obj directory
+**/obj/
+
+# Local paths stored for MMF
+MakeModFolder.saved.json
