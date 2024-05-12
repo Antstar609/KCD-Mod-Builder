@@ -291,7 +291,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private string _modName = "";
 
-    private string ModName
+    public string ModName
     {
         get => _modName;
 
@@ -307,7 +307,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private string _repoPath = "";
 
-    private string RepoPath
+    public string RepoPath
     {
         get => _repoPath;
 
@@ -323,7 +323,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private string _gamePath = "";
 
-    private string GamePath
+    public string GamePath
     {
         get => _gamePath;
 
@@ -337,9 +337,9 @@ public partial class MainWindow : INotifyPropertyChanged
         }
     }
 
-    private string _modVersion = "0.1";
+    private string _modVersion = "";
 
-    private string ModVersion
+    public string ModVersion
     {
         get => _modVersion;
         set
