@@ -7,5 +7,8 @@
 # Ignore the obj directory
 **/obj/
 
+# Ignore the Build directory
+Build/
+
 # Local paths stored for MMF
 MakeModFolder.saved.json
