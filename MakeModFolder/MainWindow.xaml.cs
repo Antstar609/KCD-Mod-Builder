@@ -36,7 +36,8 @@ public partial class MainWindow : INotifyPropertyChanged
             { "GamePath", GamePath },
             { "RepoPath", RepoPath },
             { "ModVersion", ModVersion },
-            { "IsMapModified", IsMapModified }
+            { "IsMapModified", IsMapModified },
+            { "Author", Author }
         };
 
         var json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
@@ -56,6 +57,7 @@ public partial class MainWindow : INotifyPropertyChanged
                 RepoPath = data["RepoPath"];
                 ModVersion = data["ModVersion"];
                 IsMapModified = data["IsMapModified"];
+                Author = data["Author"];
             }
         }
     }
@@ -186,7 +188,7 @@ public partial class MainWindow : INotifyPropertyChanged
         writer.WriteValue("A mod for Kingdom Come: Deliverance");
         writer.WriteEndElement(); // /description
         writer.WriteStartElement("author"); // author
-        writer.WriteValue("Antstar609");
+        writer.WriteValue(Author);
         writer.WriteEndElement(); // /author
         writer.WriteStartElement("version"); // version
         writer.WriteValue(ModVersion);
@@ -261,7 +263,7 @@ public partial class MainWindow : INotifyPropertyChanged
     private void Run_Button_Click(object _sender, RoutedEventArgs _e)
     {
         if (!string.IsNullOrEmpty(ModName) && !string.IsNullOrEmpty(RepoPath) &&
-            !string.IsNullOrEmpty(GamePath) && !string.IsNullOrEmpty(ModVersion))
+            !string.IsNullOrEmpty(GamePath) && !string.IsNullOrEmpty(ModVersion) && !string.IsNullOrEmpty(Author))
         {
             //check if the mod already exists and if I can access it (if it's not in use)
             var modPath = GamePath + "\\Mods\\" + ModName;
@@ -363,6 +365,22 @@ public partial class MainWindow : INotifyPropertyChanged
             if (_isMapModified != value)
             {
                 _isMapModified = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string _author = "";
+
+    public string Author
+    {
+        get => _author;
+
+        set
+        {
+            if (_author != value)
+            {
+                _author = value;
                 OnPropertyChanged();
             }
         }
