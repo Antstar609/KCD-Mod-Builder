@@ -46,20 +46,19 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private void GetJsonData()
     {
-        if (File.Exists(JsonPath))
-        {
-            var json = File.ReadAllText(JsonPath);
-            var data = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
-            if (data != null)
-            {
-                ModName = data["ModName"];
-                GamePath = data["GamePath"];
-                RepoPath = data["RepoPath"];
-                ModVersion = data["ModVersion"];
-                IsMapModified = data["IsMapModified"];
-                Author = data["Author"];
-            }
-        }
+        if (!File.Exists(JsonPath)) return;
+
+        var json = File.ReadAllText(JsonPath);
+        var data = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+
+        if (data == null) return;
+
+        ModName = data["ModName"];
+        GamePath = data["GamePath"];
+        RepoPath = data["RepoPath"];
+        ModVersion = data["ModVersion"];
+        IsMapModified = data["IsMapModified"];
+        Author = data["Author"];
     }
 
     private void MakeModFolder()
@@ -173,7 +172,7 @@ public partial class MainWindow : INotifyPropertyChanged
             NewLineOnAttributes = true
         };
 
-        using XmlWriter writer = XmlWriter.Create(GamePath + "\\Mods\\" + ModName + "\\mod.manifest", settings);
+        using var writer = XmlWriter.Create(GamePath + "\\Mods\\" + ModName + "\\mod.manifest", settings);
 
         writer.WriteStartDocument();
         writer.WriteStartElement("kcd_mod"); // kcd_mod
@@ -213,22 +212,21 @@ public partial class MainWindow : INotifyPropertyChanged
             IsFolderPicker = true
         };
 
-        if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
-        {
-            // if in the folder there is a mod.manifest file and a modding_eula.txt file, then it's the right folder
-            var files = Directory.GetFiles(openFileDialog.FileName);
-            var isRepository = false;
-            if (files.Any(file => file.Contains("ModRepository.txt")))
-            {
-                isRepository = true;
-                RepoPath = openFileDialog.FileName;
-            }
+        if (openFileDialog.ShowDialog() != CommonFileDialogResult.Ok) return;
 
-            if (!isRepository)
-            {
-                MessageBox.Show("The selected folder is not a valid repository", "Warning", MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-            }
+        // if in the folder there is a mod.manifest file and a modding_eula.txt file, then it's the right folder
+        var files = Directory.GetFiles(openFileDialog.FileName);
+        var isRepository = false;
+        if (files.Any(file => file.Contains("ModRepository.txt")))
+        {
+            isRepository = true;
+            RepoPath = openFileDialog.FileName;
+        }
+
+        if (!isRepository)
+        {
+            MessageBox.Show("The selected folder is not a valid repository", "Warning", MessageBoxButton.OK,
+                MessageBoxImage.Warning);
         }
     }
 
@@ -241,22 +239,21 @@ public partial class MainWindow : INotifyPropertyChanged
             IsFolderPicker = true
         };
 
-        if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
-        {
-            // if in the folder there is a mod.manifest file and a modding_eula.txt file, then it's the right folder
-            var files = Directory.GetFiles(openFileDialog.FileName);
-            var isGame = false;
-            if (files.Any(file => file.Contains("kcd.log")))
-            {
-                isGame = true;
-                GamePath = openFileDialog.FileName;
-            }
+        if (openFileDialog.ShowDialog() != CommonFileDialogResult.Ok) return;
 
-            if (!isGame)
-            {
-                MessageBox.Show("The selected folder is not a valid game folder", "Warning", MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-            }
+        // if in the folder there is a mod.manifest file and a modding_eula.txt file, then it's the right folder
+        var files = Directory.GetFiles(openFileDialog.FileName);
+        var isGame = false;
+        if (files.Any(file => file.Contains("kcd.log")))
+        {
+            isGame = true;
+            GamePath = openFileDialog.FileName;
+        }
+
+        if (!isGame)
+        {
+            MessageBox.Show("The selected folder is not a valid game folder", "Warning", MessageBoxButton.OK,
+                MessageBoxImage.Warning);
         }
     }
 
