@@ -26,6 +26,7 @@ public partial class MainWindow : INotifyPropertyChanged
         GetJsonData();
     }
 
+    public bool isSilent = false;
     private readonly string JsonPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\MakeModFolder.saved.json";
 
     private void SetJsonData()
@@ -81,8 +82,7 @@ public partial class MainWindow : INotifyPropertyChanged
         }
         else
         {
-            MessageBox.Show("The modding_eula.txt file is missing", "Warning", MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            Display("The modding_eula.txt file is missing", MessageBoxButton.OK, MessageBoxImage.Warning, false);
         }
 
         // Copy the data folder and zip it
@@ -95,16 +95,14 @@ public partial class MainWindow : INotifyPropertyChanged
             if (directory.Contains("Data") && !isDataZipped)
             {
                 var dataPath = modPath + "\\Data\\Data.pak";
-                ZipFile.CreateFromDirectory(directory, dataPath, CompressionLevel.Optimal,
-                    false);
+                ZipFile.CreateFromDirectory(directory, dataPath, CompressionLevel.Optimal, false);
                 isDataZipped = true;
             }
 
             if (directory.Contains("Libs") && !isTablesZipped)
             {
                 var tablesPath = modPath + "\\Data\\Tables.pak";
-                ZipFile.CreateFromDirectory(directory, tablesPath, CompressionLevel.Optimal,
-                    true);
+                ZipFile.CreateFromDirectory(directory, tablesPath, CompressionLevel.Optimal, true);
                 isTablesZipped = true;
             }
 
@@ -114,16 +112,14 @@ public partial class MainWindow : INotifyPropertyChanged
 
                 if (localizationDirectories.Length == 0)
                 {
-                    MessageBox.Show("The localization folder is empty", "Warning", MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
+                    Display("The localization folder is empty", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
                 foreach (var localizationDirectory in localizationDirectories)
                 {
                     var localizationPath = modPath + "\\Localization\\" + Path.GetFileName(localizationDirectory) + "_xml.pak";
-                    ZipFile.CreateFromDirectory(localizationDirectory, localizationPath,
-                        CompressionLevel.Optimal, false);
+                    ZipFile.CreateFromDirectory(localizationDirectory, localizationPath, CompressionLevel.Optimal, false);
                 }
 
                 isLocalizationZipped = true;
@@ -135,22 +131,19 @@ public partial class MainWindow : INotifyPropertyChanged
 
         if (!isDataZipped)
         {
-            MessageBox.Show("The data folder is missing", "Warning", MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            Display("The data folder is missing", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
         if (!isTablesZipped)
         {
-            MessageBox.Show("The tables folder is missing", "Warning", MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            Display("The tables folder is missing", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
         if (!isLocalizationZipped)
         {
-            MessageBox.Show("The localization folder is missing", "Warning", MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            Display("The localization folder is missing", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
@@ -158,8 +151,8 @@ public partial class MainWindow : INotifyPropertyChanged
         WriteModManifest();
 
         // MessageBox the user that the mod folder has been created and the location of it
-        MessageBox.Show("The mod folder has been created at " + modPath, "Success", MessageBoxButton.OK,
-            MessageBoxImage.Information);
+        Display("The mod folder has been created at " + modPath, MessageBoxButton.OK, MessageBoxImage.Information, false, "Success");
+
         Application.Current.Shutdown();
     }
 
@@ -225,8 +218,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
         if (!isRepository)
         {
-            MessageBox.Show("The selected folder is not a valid repository", "Warning", MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            MessageBox.Show("The selected folder is not a valid repository", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 
@@ -252,15 +244,14 @@ public partial class MainWindow : INotifyPropertyChanged
 
         if (!isGame)
         {
-            MessageBox.Show("The selected folder is not a valid game folder", "Warning", MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            MessageBox.Show("The selected folder is not a valid game folder", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 
-    private void Run_Button_Click(object _sender, RoutedEventArgs _e)
+    public void Run_Button_Click(object _sender, RoutedEventArgs _e)
     {
-        if (!string.IsNullOrEmpty(ModName) && !string.IsNullOrEmpty(RepoPath) &&
-            !string.IsNullOrEmpty(GamePath) && !string.IsNullOrEmpty(ModVersion) && !string.IsNullOrEmpty(Author))
+        if (!string.IsNullOrEmpty(ModName) && !string.IsNullOrEmpty(RepoPath) && !string.IsNullOrEmpty(GamePath) &&
+            !string.IsNullOrEmpty(ModVersion) && !string.IsNullOrEmpty(Author))
         {
             //check if the mod already exists and if I can access it (if it's not in use)
             var modPath = GamePath + "\\Mods\\" + ModName;
@@ -272,8 +263,7 @@ public partial class MainWindow : INotifyPropertyChanged
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("The mod folder is in use", "Warning", MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
+                    Display("Please close the game and try again !", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
             }
@@ -283,8 +273,15 @@ public partial class MainWindow : INotifyPropertyChanged
         }
         else
         {
-            MessageBox.Show("Please fill all the fields", "Warning", MessageBoxButton.OK,
-                MessageBoxImage.Warning);
+            if (isSilent)
+            {
+                Console.WriteLine("Please ensure all fields are filled in the application before using silent mode");
+                Application.Current.Shutdown();
+            }
+            else
+            {
+                MessageBox.Show("Please fill all the fields", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 
@@ -293,7 +290,6 @@ public partial class MainWindow : INotifyPropertyChanged
     public string ModName
     {
         get => _modName;
-
         set
         {
             if (_modName != value)
@@ -309,7 +305,6 @@ public partial class MainWindow : INotifyPropertyChanged
     public string RepoPath
     {
         get => _repoPath;
-
         set
         {
             if (_repoPath != value)
@@ -325,7 +320,6 @@ public partial class MainWindow : INotifyPropertyChanged
     public string GamePath
     {
         get => _gamePath;
-
         set
         {
             if (_gamePath != value)
@@ -356,7 +350,6 @@ public partial class MainWindow : INotifyPropertyChanged
     private string IsMapModified
     {
         get => _isMapModified;
-
         set
         {
             if (_isMapModified != value)
@@ -372,7 +365,6 @@ public partial class MainWindow : INotifyPropertyChanged
     public string Author
     {
         get => _author;
-
         set
         {
             if (_author != value)
@@ -380,6 +372,22 @@ public partial class MainWindow : INotifyPropertyChanged
                 _author = value;
                 OnPropertyChanged();
             }
+        }
+    }
+
+    private void Display(string _message, MessageBoxButton _button, MessageBoxImage _image, bool _shutdown = true, string _caption = "Warning")
+    {
+        if (isSilent)
+        {
+            Console.WriteLine(_message);
+            if (_shutdown)
+            {
+                Application.Current.Shutdown();
+            }
+        }
+        else
+        {
+            MessageBox.Show(_message, _caption, _button, _image);
         }
     }
 
