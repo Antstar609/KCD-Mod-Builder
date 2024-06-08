@@ -82,7 +82,7 @@ public partial class MainWindow : INotifyPropertyChanged
         }
         else
         {
-            Display("The modding_eula.txt file is missing", MessageBoxButton.OK, MessageBoxImage.Warning, false);
+            Display("The modding_eula.txt file is missing", false);
         }
 
         // Copy the data folder and zip it
@@ -112,7 +112,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
                 if (localizationDirectories.Length == 0)
                 {
-                    Display("The localization folder is empty", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Display("The localization folder is empty");
                     return;
                 }
 
@@ -131,19 +131,19 @@ public partial class MainWindow : INotifyPropertyChanged
 
         if (!isDataZipped)
         {
-            Display("The data folder is missing", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Display("The data folder is missing");
             return;
         }
 
         if (!isTablesZipped)
         {
-            Display("The tables folder is missing", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Display("The tables folder is missing");
             return;
         }
 
         if (!isLocalizationZipped)
         {
-            Display("The localization folder is missing", MessageBoxButton.OK, MessageBoxImage.Warning);
+            Display("The localization folder is missing");
             return;
         }
 
@@ -151,7 +151,7 @@ public partial class MainWindow : INotifyPropertyChanged
         WriteModManifest();
 
         // MessageBox the user that the mod folder has been created and the location of it
-        Display("The mod folder has been created at " + modPath, MessageBoxButton.OK, MessageBoxImage.Information, false, "Success");
+        Display("The mod folder has been created at " + modPath);
 
         Application.Current.Shutdown();
     }
@@ -218,7 +218,8 @@ public partial class MainWindow : INotifyPropertyChanged
 
         if (!isRepository)
         {
-            MessageBox.Show("The selected folder is not a valid repository", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            var messageBox = new CustomMessageBox("The selected folder is not a valid repository");
+            messageBox.ShowDialog();
         }
     }
 
@@ -244,7 +245,8 @@ public partial class MainWindow : INotifyPropertyChanged
 
         if (!isGame)
         {
-            MessageBox.Show("The selected folder is not a valid game folder", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            var messageBox = new CustomMessageBox("The selected folder is not a valid game folder");
+            messageBox.ShowDialog();
         }
     }
 
@@ -263,7 +265,7 @@ public partial class MainWindow : INotifyPropertyChanged
                 }
                 catch (Exception)
                 {
-                    Display("Please close the game and try again !", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Display("Please close the game and try again !");
                     return;
                 }
             }
@@ -280,7 +282,8 @@ public partial class MainWindow : INotifyPropertyChanged
             }
             else
             {
-                MessageBox.Show("Please fill all the fields", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                var messageBox = new CustomMessageBox("Please fill all the fields");
+                messageBox.ShowDialog();
             }
         }
     }
@@ -375,7 +378,7 @@ public partial class MainWindow : INotifyPropertyChanged
         }
     }
 
-    private void Display(string _message, MessageBoxButton _button, MessageBoxImage _image, bool _shutdown = true, string _caption = "Warning")
+    private void Display(string _message, bool _shutdown = true)
     {
         if (isSilent)
         {
@@ -387,7 +390,8 @@ public partial class MainWindow : INotifyPropertyChanged
         }
         else
         {
-            MessageBox.Show(_message, _caption, _button, _image);
+            var messageBox = new CustomMessageBox(_message);
+            messageBox.ShowDialog();
         }
     }
 
