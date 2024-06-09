@@ -12,16 +12,16 @@ namespace MakeModFolder
         [DllImport("kernel32.dll")]
         private static extern bool FreeConsole();
 
-        private void App_OnStartup(object sender, StartupEventArgs e)
+        private void App_OnStartup(object _Sender, StartupEventArgs _Event)
         {
-            if (e.Args.Contains("--silent"))
+            if (_Event.Args.Contains("--silent"))
             {
                 AllocConsole();
-                var mainWindow = new MainWindow
+                var Window = new MainWindow
                 {
-                    isSilent = true
+                    IsSilent = true
                 };
-                mainWindow.Run_Button_Click(null, null);
+                Window.Run_Button_Click(null, null);
             }
             else
             {
