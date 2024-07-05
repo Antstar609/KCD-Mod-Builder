@@ -1,3 +1,7 @@
+.idea/
+
+Publish/
+
 # Ignore the bin directory
 **/bin/
 
