@@ -13,7 +13,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace MakeModFolder;
 
-public partial class MainWindow : INotifyPropertyChanged
+public partial class MainWindow
 {
     public readonly string JsonPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\MakeModFolder.saved.json";
     public bool IsSilent = false;
@@ -37,7 +37,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
     private void MakeModFolder()
     {
-        string ModPath = GamePath + "\\Mods\\" + ModName;
+        string ModPath = GamePath.Text + "\\Mods\\" + ModName.Text;
 
         CreateModFolder(ModPath);
         CopyModdingEula(ModPath);
@@ -76,7 +76,7 @@ public partial class MainWindow : INotifyPropertyChanged
     private bool ZipDirectories(string _ModPath)
     {
         // Copy the data folder and zip it
-        string[] Directories = Directory.GetDirectories(RepoPath);
+        string[] Directories = Directory.GetDirectories(RepoPath.Text);
         bool IsDataZipped = false;
         bool IsLocalizationZipped = false;
         bool IsTablesZipped = false;
@@ -161,7 +161,7 @@ public partial class MainWindow : INotifyPropertyChanged
         if (OpenFileDialog.ShowDialog() != CommonFileDialogResult.Ok) return;
 
         // Don't check here if it's a valid repo but when the mod is created
-        RepoPath = OpenFileDialog.FileName;
+        RepoPath.Text = OpenFileDialog.FileName;
     }
 
     private void GameBrowsePath_Button_Click(object _Sender, RoutedEventArgs _Event)
@@ -181,7 +181,7 @@ public partial class MainWindow : INotifyPropertyChanged
 
         if (File.Exists(ExePath))
         {
-            GamePath = PotentialGamePath;
+            GamePath.Text = PotentialGamePath;
         }
         else
         {
@@ -192,11 +192,11 @@ public partial class MainWindow : INotifyPropertyChanged
 
     public void Run_Button_Click(object _Sender, RoutedEventArgs _Event)
     {
-        if (!string.IsNullOrEmpty(ModName) && !string.IsNullOrEmpty(RepoPath) && !string.IsNullOrEmpty(GamePath) &&
-            !string.IsNullOrEmpty(ModVersion) && !string.IsNullOrEmpty(Author))
+        if (!string.IsNullOrEmpty(ModName.Text) && !string.IsNullOrEmpty(RepoPath.Text) && !string.IsNullOrEmpty(GamePath.Text) &&
+            !string.IsNullOrEmpty(ModVersion.Text) && !string.IsNullOrEmpty(Author.Text))
         {
             // Check if the mod already exists and if I can access it (if it's not in use)
-            string ModPath = GamePath + "\\Mods\\" + ModName;
+            string ModPath = GamePath.Text + "\\Mods\\" + ModName.Text;
 
             if (Directory.Exists(ModPath))
             {
@@ -228,103 +228,6 @@ public partial class MainWindow : INotifyPropertyChanged
                 MessageBox.ShowDialog();
             }
         }
-    }
-
-    private string m_ModName = "";
-
-    public string ModName
-    {
-        get => m_ModName;
-        set
-        {
-            if (m_ModName != value)
-            {
-                m_ModName = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string m_RepoPath = "";
-
-    public string RepoPath
-    {
-        get => m_RepoPath;
-        set
-        {
-            if (m_RepoPath != value)
-            {
-                m_RepoPath = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string m_GamePath = "";
-
-    public string GamePath
-    {
-        get => m_GamePath;
-        set
-        {
-            if (m_GamePath != value)
-            {
-                m_GamePath = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string m_ModVersion = "";
-
-    public string ModVersion
-    {
-        get => m_ModVersion;
-        set
-        {
-            if (m_ModVersion != value)
-            {
-                m_ModVersion = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string m_IsMapModified = "False";
-
-    public string IsMapModified
-    {
-        get => m_IsMapModified;
-        set
-        {
-            if (m_IsMapModified != value)
-            {
-                m_IsMapModified = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    private string m_Author = "";
-
-    public string Author
-    {
-        get => m_Author;
-        set
-        {
-            if (m_Author != value)
-            {
-                m_Author = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    private void OnPropertyChanged([CallerMemberName] string? _PropertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(_PropertyName));
     }
 
     [GeneratedRegex("[^0-9.]+")]

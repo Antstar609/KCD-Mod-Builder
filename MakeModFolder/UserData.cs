@@ -10,12 +10,12 @@ public class UserData(MainWindow _MainWindow)
     {
         var Data = new Dictionary<string, string>
         {
-            { "ModName", _MainWindow.ModName },
-            { "GamePath", _MainWindow.GamePath },
-            { "RepoPath", _MainWindow.RepoPath },
-            { "ModVersion", _MainWindow.ModVersion },
-            { "IsMapModified", _MainWindow.IsMapModified },
-            { "Author", _MainWindow.Author }
+            { "ModName", _MainWindow.ModName.Text },
+            { "GamePath", _MainWindow.GamePath.Text },
+            { "RepoPath", _MainWindow.RepoPath.Text },
+            { "ModVersion", _MainWindow.ModVersion.Text },
+            { "IsMapModified", _MainWindow.IsMapModified.IsChecked.ToString() },
+            { "Author", _MainWindow.Author.Text }
         };
 
         string Json = JsonSerializer.Serialize(Data, new JsonSerializerOptions { WriteIndented = true });
@@ -31,11 +31,11 @@ public class UserData(MainWindow _MainWindow)
 
         if (Data == null) return;
 
-        _MainWindow.ModName = Data["ModName"];
-        _MainWindow.GamePath = Data["GamePath"];
-        _MainWindow.RepoPath = Data["RepoPath"];
-        _MainWindow.ModVersion = Data["ModVersion"];
-        _MainWindow.IsMapModified = Data["IsMapModified"];
-        _MainWindow.Author = Data["Author"];
+        _MainWindow.ModName.Text = Data["ModName"];
+        _MainWindow.GamePath.Text = Data["GamePath"];
+        _MainWindow.RepoPath.Text = Data["RepoPath"];
+        _MainWindow.ModVersion.Text = Data["ModVersion"];
+        _MainWindow.IsMapModified.IsChecked = bool.Parse(Data["IsMapModified"]);
+        _MainWindow.Author.Text = Data["Author"];
     }
 }
