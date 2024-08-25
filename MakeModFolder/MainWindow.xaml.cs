@@ -39,7 +39,7 @@ public partial class MainWindow
     {
         string ModPath = GamePath.Text + "\\Mods\\" + ModName.Text;
 
-        CreateModFolder(ModPath);
+        Directory.CreateDirectory(ModPath);
         CopyModdingEula(ModPath);
 
         if (!ZipDirectories(ModPath)) return;
@@ -49,13 +49,6 @@ public partial class MainWindow
         CustomMessageBox.Display("The mod folder has been created at " + ModPath, IsSilent);
 
         Application.Current.Shutdown();
-    }
-
-    private void CreateModFolder(string _ModPath)
-    {
-        Directory.CreateDirectory(_ModPath);
-        Directory.CreateDirectory(_ModPath + "\\Data");
-        Directory.CreateDirectory(_ModPath + "\\Localization");
     }
 
     private void CopyModdingEula(string _ModPath)
@@ -81,10 +74,11 @@ public partial class MainWindow
         bool IsLocalizationZipped = false;
         bool IsTablesZipped = false;
 
-        foreach (var DirectoryName in Directories)
+        foreach (string DirectoryName in Directories)
         {
             if (DirectoryName.Contains("Data") && !IsDataZipped)
             {
+                Directory.CreateDirectory(_ModPath + "\\Data");
                 string DataDataPak = _ModPath + "\\Data\\Data.pak";
                 ZipFile.CreateFromDirectory(DirectoryName, DataDataPak, CompressionLevel.Optimal, false);
                 IsDataZipped = true;
@@ -99,15 +93,10 @@ public partial class MainWindow
 
             if (DirectoryName.Contains("Localization") && !IsLocalizationZipped)
             {
+                Directory.CreateDirectory(_ModPath + "\\Localization");
                 string[] LocalizationDirectories = Directory.GetDirectories(DirectoryName);
 
-                if (LocalizationDirectories.Length == 0)
-                {
-                    CustomMessageBox.Display("The localization folder is empty", IsSilent);
-                    return false;
-                }
-
-                foreach (var LocalizationDirectory in LocalizationDirectories)
+                foreach (string LocalizationDirectory in LocalizationDirectories)
                 {
                     string LocalizationPath = _ModPath + "\\Localization\\" + Path.GetFileName(LocalizationDirectory) + "_xml.pak";
                     ZipFile.CreateFromDirectory(LocalizationDirectory, LocalizationPath, CompressionLevel.Optimal, false);
@@ -118,32 +107,6 @@ public partial class MainWindow
 
             if (IsDataZipped && IsLocalizationZipped && IsTablesZipped)
                 break;
-        }
-
-        // Handle missing directories
-
-        string ErrorMessage = "";
-
-        if (!IsDataZipped)
-        {
-            ErrorMessage += "The data folder is missing.\n";
-        }
-
-        if (!IsTablesZipped)
-        {
-            ErrorMessage += "The tables folder is missing.\n";
-        }
-
-        if (!IsLocalizationZipped)
-        {
-            ErrorMessage += "The localization folder is missing.\n";
-        }
-
-        if (!string.IsNullOrEmpty(ErrorMessage))
-        {
-            CustomMessageBox.Display(ErrorMessage.TrimEnd('\n'), IsSilent);
-            Directory.Delete(_ModPath, true);
-            return false;
         }
 
         return true;
@@ -216,9 +179,9 @@ public partial class MainWindow
         }
         else
         {
-            // All fields are not filled
             if (IsSilent)
             {
+                // All fields are not filled
                 Console.WriteLine("Please ensure all fields are filled in the application before using silent mode");
                 Application.Current.Shutdown();
             }
