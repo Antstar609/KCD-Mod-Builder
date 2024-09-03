@@ -2,8 +2,6 @@
 using System.Windows;
 using System.IO;
 using System.IO.Compression;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -11,11 +9,11 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 // ReSharper disable InconsistentNaming
 // ReSharper disable UseVerbatimString
 
-namespace MakeModFolder;
+namespace KCDModPacker;
 
 public partial class MainWindow
 {
-    public readonly string JsonPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\MakeModFolder.saved.json";
+    public readonly string JsonPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\KCDModPacker.saved.json";
     public bool IsSilent = false;
 
     private readonly UserData m_UserData;

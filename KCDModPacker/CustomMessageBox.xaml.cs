@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace MakeModFolder;
+namespace KCDModPacker;
 
 public partial class CustomMessageBox : Window
 {

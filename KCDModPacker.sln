@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeModFolder", "MakeModFolder\MakeModFolder.csproj", "{36DCA071-1E4A-40A2-9216-62333FD43234}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KCDModPacker", "KCDModPacker\KCDModPacker.csproj", "{36DCA071-1E4A-40A2-9216-62333FD43234}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

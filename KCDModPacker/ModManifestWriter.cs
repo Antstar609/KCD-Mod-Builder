@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace MakeModFolder;
+namespace KCDModPacker;
 
 public class ModManifestWriter(MainWindow _mainWindow)
 {
@@ -26,7 +26,7 @@ public class ModManifestWriter(MainWindow _mainWindow)
         Writer.WriteValue(_mainWindow.ModName.Text.Replace(" ", "").ToLower());
         Writer.WriteEndElement(); // /modid
         Writer.WriteStartElement("description"); // description
-        Writer.WriteValue("A mod for Kingdom Come: Deliverance");
+        Writer.WriteValue("A mod for Kingdom Come: Deliverance (Packed with KCD Mod Packer)");
         Writer.WriteEndElement(); // /description
         Writer.WriteStartElement("author"); // author
         Writer.WriteValue(_mainWindow.Author.Text);

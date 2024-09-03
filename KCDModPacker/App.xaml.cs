@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace MakeModFolder
+namespace KCDModPacker
 {
     public partial class App
     {

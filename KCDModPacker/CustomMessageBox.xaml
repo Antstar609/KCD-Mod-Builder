@@ -1,7 +1,7 @@
-﻿<Window x:Class="MakeModFolder.CustomMessageBox"
+﻿<Window x:Class="KCDModPacker.CustomMessageBox"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MakeModFolder Tool" SizeToContent="WidthAndHeight" MinWidth="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="KCD Mod Packer" SizeToContent="WidthAndHeight" MinWidth="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <StackPanel Margin="20">
         <TextBlock Name="MessageTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,20" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
