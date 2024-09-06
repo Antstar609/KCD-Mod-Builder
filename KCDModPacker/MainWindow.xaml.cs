@@ -13,50 +13,50 @@ namespace KCDModPacker;
 
 public partial class MainWindow
 {
-    public readonly string JsonPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\KCDModPacker.saved.json";
     public bool IsSilent = false;
 
-    private readonly UserData m_UserData;
-    private readonly ModManifestWriter m_ModManifestWriter;
+    private readonly PresetData m_presetData;
+    private readonly ModManifestWriter m_modManifestWriter;
 
-    private const string ModdingEulaFileName = "\\modding_eula.txt";
-    private const string GameExePath = "\\Bin\\Win64\\KingdomCome.exe";
+    private const string m_moddingEulaFileName = "\\modding_eula.txt";
+    private const string m_gameExePath = "\\Bin\\Win64\\KingdomCome.exe";
 
     public MainWindow()
     {
         DataContext = this;
         InitializeComponent();
 
-        m_UserData = new UserData(this);
-        m_ModManifestWriter = new ModManifestWriter(this);
+        m_presetData = new PresetData(this);
+        m_modManifestWriter = new ModManifestWriter(this);
 
-        m_UserData.GetUserData();
+        m_presetData.LoadAllPresets();
+        m_presetData.LoadLastPreset();
     }
 
     private void MakeModFolder()
     {
-        string ModPath = GamePath.Text + "\\Mods\\" + ModName.Text;
+        string modPath = xGamePath.Text + "\\Mods\\" + xModName.Text;
 
-        Directory.CreateDirectory(ModPath);
-        CopyModdingEula(ModPath);
+        Directory.CreateDirectory(modPath);
+        CopyModdingEula(modPath);
 
-        if (!ZipDirectories(ModPath)) return;
+        if (!ZipDirectories(modPath)) return;
 
-        m_ModManifestWriter.WriteModManifest();
+        m_modManifestWriter.WriteModManifest();
 
-        CustomMessageBox.Display("The mod folder has been created at " + ModPath, IsSilent);
+        CustomMessageBox.Display("The mod folder has been created at " + modPath, IsSilent);
 
         Application.Current.Shutdown();
     }
 
-    private void CopyModdingEula(string _ModPath)
+    private void CopyModdingEula(string _modPath)
     {
-        string ExePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-        string ModdingEulaPath = Path.GetDirectoryName(ExePath) + ModdingEulaFileName;
+        string exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        string moddingEulaPath = Path.GetDirectoryName(exePath) + m_moddingEulaFileName;
 
-        if (File.Exists(ModdingEulaPath))
+        if (File.Exists(moddingEulaPath))
         {
-            File.Copy(ModdingEulaPath, _ModPath + ModdingEulaFileName);
+            File.Copy(moddingEulaPath, _modPath + m_moddingEulaFileName);
         }
         else
         {
@@ -64,85 +64,85 @@ public partial class MainWindow
         }
     }
 
-    private bool ZipDirectories(string _ModPath)
+    private bool ZipDirectories(string _modPath)
     {
         // Copy the data folder and zip it
-        string[] Directories = Directory.GetDirectories(RepoPath.Text);
-        bool IsDataZipped = false;
-        bool IsLocalizationZipped = false;
-        bool IsTablesZipped = false;
+        string[] directories = Directory.GetDirectories(xRepoPath.Text);
+        bool isDataZipped = false;
+        bool isLocalizationZipped = false;
+        bool isTablesZipped = false;
 
-        foreach (string DirectoryName in Directories)
+        foreach (string directoryName in directories)
         {
-            if (DirectoryName.Contains("Data") && !IsDataZipped)
+            if (directoryName.Contains("Data") && !isDataZipped)
             {
-                Directory.CreateDirectory(_ModPath + "\\Data");
-                string DataDataPak = _ModPath + "\\Data\\Data.pak";
-                ZipFile.CreateFromDirectory(DirectoryName, DataDataPak, CompressionLevel.Optimal, false);
-                IsDataZipped = true;
+                Directory.CreateDirectory(_modPath + "\\Data");
+                string dataDataPak = _modPath + "\\Data\\Data.pak";
+                ZipFile.CreateFromDirectory(directoryName, dataDataPak, CompressionLevel.Optimal, false);
+                isDataZipped = true;
             }
 
-            if (DirectoryName.Contains("Libs") && !IsTablesZipped)
+            if (directoryName.Contains("Libs") && !isTablesZipped)
             {
-                string DataTablesPak = _ModPath + "\\Data\\Tables.pak";
-                ZipFile.CreateFromDirectory(DirectoryName, DataTablesPak, CompressionLevel.Optimal, true);
-                IsTablesZipped = true;
+                string DataTablesPak = _modPath + "\\Data\\Tables.pak";
+                ZipFile.CreateFromDirectory(directoryName, DataTablesPak, CompressionLevel.Optimal, true);
+                isTablesZipped = true;
             }
 
-            if (DirectoryName.Contains("Localization") && !IsLocalizationZipped)
+            if (directoryName.Contains("Localization") && !isLocalizationZipped)
             {
-                Directory.CreateDirectory(_ModPath + "\\Localization");
-                string[] LocalizationDirectories = Directory.GetDirectories(DirectoryName);
+                Directory.CreateDirectory(_modPath + "\\Localization");
+                string[] LocalizationDirectories = Directory.GetDirectories(directoryName);
 
                 foreach (string LocalizationDirectory in LocalizationDirectories)
                 {
-                    string LocalizationPath = _ModPath + "\\Localization\\" + Path.GetFileName(LocalizationDirectory) + "_xml.pak";
+                    string LocalizationPath = _modPath + "\\Localization\\" + Path.GetFileName(LocalizationDirectory) + "_xml.pak";
                     ZipFile.CreateFromDirectory(LocalizationDirectory, LocalizationPath, CompressionLevel.Optimal, false);
                 }
 
-                IsLocalizationZipped = true;
+                isLocalizationZipped = true;
             }
 
-            if (IsDataZipped && IsLocalizationZipped && IsTablesZipped)
+            if (isDataZipped && isLocalizationZipped && isTablesZipped)
                 break;
         }
 
         return true;
     }
 
-    private void RepoBrowsePath_Button_Click(object _Sender, RoutedEventArgs _Event)
+    private void RepoBrowsePath_Button_Click(object _sender, RoutedEventArgs _event)
     {
-        CommonOpenFileDialog OpenFileDialog = new()
+        CommonOpenFileDialog openFileDialog = new()
         {
             InitialDirectory = "c:\\",
             RestoreDirectory = true,
             IsFolderPicker = true
         };
 
-        if (OpenFileDialog.ShowDialog() != CommonFileDialogResult.Ok) return;
+        if (openFileDialog.ShowDialog() != CommonFileDialogResult.Ok) return;
 
         // Don't check here if it's a valid repo but when the mod is created
-        RepoPath.Text = OpenFileDialog.FileName;
+        xRepoPath.Text = openFileDialog.FileName;
     }
 
-    private void GameBrowsePath_Button_Click(object _Sender, RoutedEventArgs _Event)
+    private void GameBrowsePath_Button_Click(object _sender, RoutedEventArgs _event)
     {
-        CommonOpenFileDialog OpenFileDialog = new()
+        CommonOpenFileDialog openFileDialog = new()
         {
             InitialDirectory = "c:\\",
             RestoreDirectory = true,
             IsFolderPicker = true
         };
 
-        if (OpenFileDialog.ShowDialog() != CommonFileDialogResult.Ok) return;
+        if (openFileDialog.ShowDialog() != CommonFileDialogResult.Ok) return;
 
         // Check if the selected directory is a valid game path
-        string? PotentialGamePath = OpenFileDialog.FileName;
-        string ExePath = PotentialGamePath + GameExePath;
+        string? potentialGamePath = openFileDialog.FileName;
+        string exePath = potentialGamePath + m_gameExePath;
 
-        if (File.Exists(ExePath))
+        if (File.Exists(exePath))
         {
-            GamePath.Text = PotentialGamePath;
+            xGamePath.Text = potentialGamePath;
         }
         else
         {
@@ -151,19 +151,19 @@ public partial class MainWindow
         }
     }
 
-    public void Run_Button_Click(object _Sender, RoutedEventArgs _Event)
+    public void Run_Button_Click(object _sender, RoutedEventArgs _event)
     {
-        if (!string.IsNullOrEmpty(ModName.Text) && !string.IsNullOrEmpty(RepoPath.Text) && !string.IsNullOrEmpty(GamePath.Text) &&
-            !string.IsNullOrEmpty(ModVersion.Text) && !string.IsNullOrEmpty(Author.Text))
+        if (!string.IsNullOrEmpty(xModName.Text) && !string.IsNullOrEmpty(xRepoPath.Text) && !string.IsNullOrEmpty(xGamePath.Text) &&
+            !string.IsNullOrEmpty(xModVersion.Text) && !string.IsNullOrEmpty(xAuthor.Text))
         {
             // Check if the mod already exists and if I can access it (if it's not in use)
-            string ModPath = GamePath.Text + "\\Mods\\" + ModName.Text;
+            string modPath = xGamePath.Text + "\\Mods\\" + xModName.Text;
 
-            if (Directory.Exists(ModPath))
+            if (Directory.Exists(modPath))
             {
                 try
                 {
-                    Directory.Delete(ModPath, true);
+                    Directory.Delete(modPath, true);
                 }
                 catch (Exception)
                 {
@@ -173,39 +173,49 @@ public partial class MainWindow
             }
 
             MakeModFolder();
-            m_UserData.SetUserData();
+            m_presetData.StorePresetData();
         }
         else
         {
             if (IsSilent)
             {
+                if (m_presetData.LoadLastPreset()) return;
+                
                 // All fields are not filled
                 Console.WriteLine("Please ensure all fields are filled in the application before using silent mode");
                 Application.Current.Shutdown();
             }
             else
             {
-                var MessageBox = new CustomMessageBox("Please fill all the fields");
-                MessageBox.ShowDialog();
+                var messageBox = new CustomMessageBox("Please fill all the fields");
+                messageBox.ShowDialog();
             }
         }
+    }
+    
+    private void Presets_SelectionChanged(object _sender, System.Windows.Controls.SelectionChangedEventArgs _e)
+    {
+        if (xPresets.SelectedItem == null) return;
+        
+        string? selectedPreset = xPresets.SelectedItem.ToString();
+        m_presetData.LoadPresetData(selectedPreset);
     }
 
     [GeneratedRegex("[^0-9.]+")]
     private static partial Regex NumberValidation();
 
-    private void NumberValidationTextBox(object _Sender, TextCompositionEventArgs _Event)
+    private void NumberValidationTextBox(object _sender, TextCompositionEventArgs _event)
     {
-        var Regex = NumberValidation();
-        _Event.Handled = Regex.IsMatch(_Event.Text);
+        Regex regex = NumberValidation();
+        _event.Handled = regex.IsMatch(_event.Text);
     }
 
     [GeneratedRegex("[^a-zA-Z0-9_]+")]
     private static partial Regex NonSpecialCharValidation();
 
-    private void NonSpecialCharValidationTextBox(object _Sender, TextCompositionEventArgs _Event)
+    private void NonSpecialCharValidationTextBox(object _sender, TextCompositionEventArgs _event)
     {
-        var Regex = NonSpecialCharValidation();
-        _Event.Handled = Regex.IsMatch(_Event.Text);
+        Regex regex = NonSpecialCharValidation();
+        _event.Handled = regex.IsMatch(_event.Text);
     }
 }
