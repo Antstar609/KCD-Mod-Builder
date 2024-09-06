@@ -5,32 +5,32 @@ namespace KCDModPacker;
 
 public partial class CustomMessageBox : Window
 {
-    public CustomMessageBox(string _Message)
+    public CustomMessageBox(string _message)
     {
         InitializeComponent();
-        MessageTextBlock.Text = _Message;
+        MessageTextBlock.Text = _message;
     }
 
-    private void OkButton_Click(object _Sender, RoutedEventArgs _Event)
+    private void OkButton_Click(object _sender, RoutedEventArgs _event)
     {
         DialogResult = true;
         Close();
     }
     
-    public static void Display(string _Message, bool _IsSilent, bool _Shutdown = true)
+    public static void Display(string _message, bool _isSilent, bool _shutdown = true)
     {
-        if (_IsSilent)
+        if (_isSilent)
         {
-            Console.WriteLine(_Message);
-            if (_Shutdown)
+            Console.WriteLine(_message);
+            if (_shutdown)
             {
                 Application.Current.Shutdown();
             }
         }
         else
         {
-            var MessageBox = new CustomMessageBox(_Message);
-            MessageBox.ShowDialog();
+            var messageBox = new CustomMessageBox(_message);
+            messageBox.ShowDialog();
         }
     }
 }
