@@ -11,10 +11,14 @@
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="20">
 
         <!-- Mod Name -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Label Content="Presets" FontWeight="Bold" FontSize="15" Padding="10" />
+            <ComboBox Name="xPresets" Margin="0, 0, 0, 50" SelectionChanged="Presets_SelectionChanged"/>
+        </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 15">
             <Label Content="Mod Name" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
-            <TextBox Name="ModName" PreviewTextInput="NonSpecialCharValidationTextBox" FontSize="15" Width="200" VerticalContentAlignment="Center" />
+            <TextBox Name="xModName" PreviewTextInput="NonSpecialCharValidationTextBox" FontSize="15" Width="200" VerticalContentAlignment="Center" />
         </StackPanel>
 
         <!-- Game -->
@@ -25,7 +29,7 @@
                 <Button Content="Browse" FontSize="15" Width="75" Height="35" VerticalAlignment="Center" Click="GameBrowsePath_Button_Click" />
             </StackPanel>
             <Border BorderThickness="1" BorderBrush="Black" Margin="5">
-                <TextBox Name="GamePath" FontSize="15" IsReadOnly="True" />
+                <TextBox Name="xGamePath" FontSize="15" IsReadOnly="True" />
             </Border>
         </StackPanel>
 
@@ -37,7 +41,7 @@
                 <Button Content="Browse" FontSize="15" Width="75" Height="35" VerticalAlignment="Center" Click="RepoBrowsePath_Button_Click" />
             </StackPanel>
             <Border BorderThickness="1" BorderBrush="Black" Margin="5">
-                <TextBox Name="RepoPath" FontSize="15" IsReadOnly="True" />
+                <TextBox Name="xRepoPath" FontSize="15" IsReadOnly="True" />
             </Border>
         </StackPanel>
 
@@ -45,16 +49,16 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 15">
             <Label Content="Mod Version" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
-            <TextBox Name="ModVersion" PreviewTextInput="NumberValidationTextBox" FontSize="15" Width="100" VerticalContentAlignment="Center" Margin="0, 0, 25, 0" />
+            <TextBox Name="xModVersion" PreviewTextInput="NumberValidationTextBox" FontSize="15" Width="100" VerticalContentAlignment="Center" Margin="0, 0, 25, 0" />
 
-            <CheckBox Name="IsMapModified" Content="Modifies Map" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10"/>
+            <CheckBox Name="xIsMapModified" Content="Modifies Map" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10"/>
         </StackPanel>
 
         <!-- Author -->
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 15">
             <Label Content="Author" FontWeight="Bold" FontSize="15" Padding="10" VerticalAlignment="Center" />
-            <TextBox Name="Author" PreviewTextInput="NonSpecialCharValidationTextBox" FontSize="15" Width="150" VerticalContentAlignment="Center" />
+            <TextBox Name="xAuthor" PreviewTextInput="NonSpecialCharValidationTextBox" FontSize="15" Width="150" VerticalContentAlignment="Center" />
         </StackPanel>
 
         <!-- Run -->
