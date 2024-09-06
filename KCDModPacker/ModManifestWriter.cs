@@ -7,41 +7,41 @@ public class ModManifestWriter(MainWindow _mainWindow)
 {
     public void WriteModManifest()
     {
-        XmlWriterSettings Settings = new()
+        XmlWriterSettings settings = new()
         {
             Indent = true,
             IndentChars = "\t",
             NewLineOnAttributes = true
         };
 
-        using var Writer = XmlWriter.Create(_mainWindow.GamePath.Text + "\\Mods\\" + _mainWindow.ModName.Text + "\\mod.manifest", Settings);
+        using var writer = XmlWriter.Create(_mainWindow.xGamePath.Text + "\\Mods\\" + _mainWindow.xModName.Text + "\\mod.manifest", settings);
 
-        Writer.WriteStartDocument();
-        Writer.WriteStartElement("kcd_mod"); // kcd_mod
-        Writer.WriteStartElement("info"); // info
-        Writer.WriteStartElement("name"); // name
-        Writer.WriteValue(_mainWindow.ModName.Text);
-        Writer.WriteEndElement(); // /name
-        Writer.WriteStartElement("modid"); // modid
-        Writer.WriteValue(_mainWindow.ModName.Text.Replace(" ", "").ToLower());
-        Writer.WriteEndElement(); // /modid
-        Writer.WriteStartElement("description"); // description
-        Writer.WriteValue("A mod for Kingdom Come: Deliverance (Packed with KCD Mod Packer)");
-        Writer.WriteEndElement(); // /description
-        Writer.WriteStartElement("author"); // author
-        Writer.WriteValue(_mainWindow.Author.Text);
-        Writer.WriteEndElement(); // /author
-        Writer.WriteStartElement("version"); // version
-        Writer.WriteValue(_mainWindow.ModVersion.Text);
-        Writer.WriteEndElement(); // /version
-        Writer.WriteStartElement("created_on"); // created_on
-        Writer.WriteValue(DateTime.Now.ToString("dd.MM.yyyy"));
-        Writer.WriteEndElement(); // /created_on
-        Writer.WriteStartElement("modifies_level"); // modifies_level
-        Writer.WriteValue(_mainWindow.IsMapModified.IsChecked.ToString()?.ToLower());
-        Writer.WriteEndElement(); // /modifies_level
-        Writer.WriteEndElement(); // /info
-        Writer.WriteEndElement(); // /kcd_mod
-        Writer.WriteEndDocument();
+        writer.WriteStartDocument();
+        writer.WriteStartElement("kcd_mod"); // kcd_mod
+        writer.WriteStartElement("info"); // info
+        writer.WriteStartElement("name"); // name
+        writer.WriteValue(_mainWindow.xModName.Text);
+        writer.WriteEndElement(); // /name
+        writer.WriteStartElement("modid"); // modid
+        writer.WriteValue(_mainWindow.xModName.Text.Replace(" ", "").ToLower());
+        writer.WriteEndElement(); // /modid
+        writer.WriteStartElement("description"); // description
+        writer.WriteValue("A mod for Kingdom Come: Deliverance (Packed with KCD Mod Packer)");
+        writer.WriteEndElement(); // /description
+        writer.WriteStartElement("author"); // author
+        writer.WriteValue(_mainWindow.xAuthor.Text);
+        writer.WriteEndElement(); // /author
+        writer.WriteStartElement("version"); // version
+        writer.WriteValue(_mainWindow.xModVersion.Text);
+        writer.WriteEndElement(); // /version
+        writer.WriteStartElement("created_on"); // created_on
+        writer.WriteValue(DateTime.Now.ToString("dd.MM.yyyy"));
+        writer.WriteEndElement(); // /created_on
+        writer.WriteStartElement("modifies_level"); // modifies_level
+        writer.WriteValue(_mainWindow.xIsMapModified.IsChecked.ToString()?.ToLower());
+        writer.WriteEndElement(); // /modifies_level
+        writer.WriteEndElement(); // /info
+        writer.WriteEndElement(); // /kcd_mod
+        writer.WriteEndDocument();
     }
 }
