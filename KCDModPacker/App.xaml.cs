@@ -12,21 +12,42 @@ namespace KCDModPacker
         [DllImport("kernel32.dll")]
         private static extern bool FreeConsole();
 
-        private void App_OnStartup(object _Sender, StartupEventArgs _Event)
+        private void App_OnStartup(object _sender, StartupEventArgs _event)
         {
-            if (_Event.Args.Contains("--silent"))
+            AllocConsole();
+
+            if (_event.Args.Contains("-silent"))
             {
-                AllocConsole();
-                var Window = new MainWindow
+                var window = new MainWindow
                 {
                     IsSilent = true
                 };
-                Window.Run_Button_Click(null, null);
+
+                PresetData presetData = new(window);
+                string presetName = string.Join(" ", _event.Args.SkipWhile(arg => arg != "-silent").Skip(1));
+
+                if (!string.IsNullOrWhiteSpace(presetName))
+                {
+                    if (presetData.PresetExists(presetName))
+                    {
+                        presetData.LoadPresetData(presetName);
+                    }
+                    else
+                    {
+                        CustomMessageBox.Display($"Preset '{presetName}' does not exist.", true);
+                        Current.Shutdown();
+                        return;
+                    }
+                }
+                else
+                {
+                    CustomMessageBox.Display("No preset was entered. Using the last preset used.", true);
+                }
+
+                window.Run_Button_Click(null, null);
             }
-            else
-            {
-                FreeConsole();
-            }
+
+            FreeConsole();
         }
     }
 }
