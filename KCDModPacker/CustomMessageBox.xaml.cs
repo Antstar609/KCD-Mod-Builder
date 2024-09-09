@@ -22,6 +22,8 @@ public partial class CustomMessageBox : Window
         if (_isSilent)
         {
             Console.WriteLine(_message);
+            Console.Out.Flush();
+            
             if (_shutdown)
             {
                 Application.Current.Shutdown();

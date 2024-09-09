@@ -182,7 +182,7 @@ public partial class MainWindow
                 if (m_presetData.LoadLastPreset()) return;
                 
                 // All fields are not filled
-                Console.WriteLine("Please ensure all fields are filled in the application before using silent mode");
+                CustomMessageBox.Display("Please ensure all fields are filled in the application before using silent mode", IsSilent);
                 Application.Current.Shutdown();
             }
             else
