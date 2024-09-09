@@ -6,21 +6,10 @@
         <UseWPF>true</UseWPF>
         <ApplicationIcon>mmf_icon256.ico</ApplicationIcon>
         <TargetFramework>net9.0-windows</TargetFramework>
-        <Company>Antstar609</Company>
-        <Product>KCD Mod Packer</Product>
-        <AssemblyVersion></AssemblyVersion>
-        <FileVersion></FileVersion>
-        <PackageId>KCD Mod Packer</PackageId>
-        <Version>1.4.1</Version>
-        <Title>KCD Mod Packer</Title>
-        <Authors>Antstar609</Authors>
-        <RepositoryUrl>https://github.com/Antstar609/KCD-Mod-Packer</RepositoryUrl>
-        <RepositoryType>Github</RepositoryType>
-        <SignAssembly>true</SignAssembly>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
+        <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
     </ItemGroup>
 
 </Project>
