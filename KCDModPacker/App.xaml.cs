@@ -2,52 +2,51 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace KCDModPacker
+namespace KCDModPacker;
+
+public partial class App
 {
-    public partial class App
+    [DllImport("kernel32.dll")]
+    private static extern bool AllocConsole();
+
+    [DllImport("kernel32.dll")]
+    private static extern bool FreeConsole();
+
+    private void App_OnStartup(object _sender, StartupEventArgs _event)
     {
-        [DllImport("kernel32.dll")]
-        private static extern bool AllocConsole();
+        AllocConsole();
 
-        [DllImport("kernel32.dll")]
-        private static extern bool FreeConsole();
-
-        private void App_OnStartup(object _sender, StartupEventArgs _event)
+        if (_event.Args.Contains("-silent"))
         {
-            AllocConsole();
-
-            if (_event.Args.Contains("-silent"))
+            var window = new MainWindow
             {
-                var window = new MainWindow
-                {
-                    IsSilent = true
-                };
+                IsSilent = true
+            };
 
-                PresetData presetData = new(window);
-                string presetName = string.Join(" ", _event.Args.SkipWhile(arg => arg != "-silent").Skip(1));
+            PresetData presetData = new(window);
+            string presetName = string.Join(" ", _event.Args.SkipWhile(arg => arg != "-silent").Skip(1));
 
-                if (!string.IsNullOrWhiteSpace(presetName))
+            if (!string.IsNullOrWhiteSpace(presetName))
+            {
+                if (presetData.PresetExists(presetName))
                 {
-                    if (presetData.PresetExists(presetName))
-                    {
-                        presetData.LoadPresetData(presetName);
-                    }
-                    else
-                    {
-                        CustomMessageBox.Display($"Preset '{presetName}' does not exist.", true);
-                        Current.Shutdown();
-                        return;
-                    }
+                    presetData.LoadPresetData(presetName);
                 }
                 else
                 {
-                    CustomMessageBox.Display("No preset was entered. Using the last preset used.", true);
+                    CustomMessageBox.Display($"Preset '{presetName}' does not exist.", true);
+                    Current.Shutdown();
+                    return;
                 }
-
-                window.Run_Button_Click(null, null);
+            }
+            else
+            {
+                CustomMessageBox.Display("No preset was entered. Using the last preset used.", true);
             }
 
-            FreeConsole();
+            window.Run_Button_Click(null, null);
         }
+
+        FreeConsole();
     }
 }
