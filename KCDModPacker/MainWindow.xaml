@@ -10,59 +10,55 @@
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="20">
 
-        <!-- Mod Name -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Label Content="Presets" FontWeight="Bold" FontSize="15" Padding="10" />
-            <ComboBox Name="xPresets" Margin="0, 0, 0, 50" SelectionChanged="Presets_SelectionChanged"/>
+        <!-- Presets -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0, 0, 15">
+            <TextBlock Text="KCD Mod Packer" FontWeight="ExtraBold" FontSize="20" VerticalAlignment="Center" Padding="10" TextDecorations="Underline" />
+            <TextBlock Text="v1.4.1" FontWeight="ExtraBold" FontSize="10" VerticalAlignment="Top" Padding="0, 0, 20, 0" />
+            <TextBlock Text="Presets" FontWeight="Bold" FontSize="15" Padding="10" VerticalAlignment="Center" />
+            <ComboBox Name="xPresets" Width="200" SelectionChanged="Presets_SelectionChanged" />
         </StackPanel>
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0, 0, 0, 30"></Separator>
 
+        <!-- Mod Name -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 15">
-            <Label Content="Mod Name" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
-            <TextBox Name="xModName" PreviewTextInput="NonSpecialCharValidationTextBox" FontSize="15" Width="200" VerticalContentAlignment="Center" />
+            <TextBlock Text="Mod Name" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
+            <TextBox Name="xModName" PreviewTextInput="NonSpecialCharValidationTextBox" FontSize="15" Width="250" VerticalContentAlignment="Center" />
         </StackPanel>
 
         <!-- Game -->
-
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0, 0, 0, 15">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label Content="Game Path" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
+                <TextBlock Text="Game Path" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
                 <Button Content="Browse" FontSize="15" Width="75" Height="35" VerticalAlignment="Center" Click="GameBrowsePath_Button_Click" />
             </StackPanel>
-            <Border BorderThickness="1" BorderBrush="Black" Margin="5">
-                <TextBox Name="xGamePath" FontSize="15" IsReadOnly="True" />
-            </Border>
+            <TextBox Name="xGamePath" FontSize="15" IsReadOnly="True" Width="450" Margin="5" />
         </StackPanel>
 
         <!-- Repository -->
-
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0, 0, 0, 15">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label Content="Repository Path" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
+                <TextBlock Text="Repository Path" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
                 <Button Content="Browse" FontSize="15" Width="75" Height="35" VerticalAlignment="Center" Click="RepoBrowsePath_Button_Click" />
             </StackPanel>
-            <Border BorderThickness="1" BorderBrush="Black" Margin="5">
-                <TextBox Name="xRepoPath" FontSize="15" IsReadOnly="True" />
-            </Border>
+            <TextBox Name="xRepoPath" FontSize="15" IsReadOnly="True" Width="450" Margin="5" />
         </StackPanel>
 
         <!-- Mod Version + Modifies Map -->
-
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 15">
-            <Label Content="Mod Version" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
+            <TextBlock Text="Mod Version" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
             <TextBox Name="xModVersion" PreviewTextInput="NumberValidationTextBox" FontSize="15" Width="100" VerticalContentAlignment="Center" Margin="0, 0, 25, 0" />
 
-            <CheckBox Name="xIsMapModified" Content="Modifies Map" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10"/>
+            <CheckBox Name="xIsMapModified" Content="Modifies Map" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" Padding="10" />
         </StackPanel>
 
         <!-- Author -->
-
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 15">
-            <Label Content="Author" FontWeight="Bold" FontSize="15" Padding="10" VerticalAlignment="Center" />
+            <TextBlock Text="Author" FontWeight="Bold" FontSize="15" Padding="10" VerticalAlignment="Center" />
             <TextBox Name="xAuthor" PreviewTextInput="NonSpecialCharValidationTextBox" FontSize="15" Width="150" VerticalContentAlignment="Center" />
         </StackPanel>
 
         <!-- Run -->
-
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0, 20, 0, 10"></Separator>
         <Button Content="Run" Click="Run_Button_Click" FontWeight="Bold" FontSize="20" Width="200" Height="40" HorizontalAlignment="Center" Margin="0, 10, 0, 0" />
     </StackPanel>
 </Window>
