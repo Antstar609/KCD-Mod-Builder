@@ -43,6 +43,7 @@ public partial class MainWindow
         if (!ZipDirectories(modPath)) return;
 
         m_modManifestWriter.WriteModManifest();
+        CompressArchive(modPath);
 
         CustomMessageBox.Display("The mod folder has been created at " + modPath, IsSilent);
 
@@ -108,6 +109,25 @@ public partial class MainWindow
         }
 
         return true;
+    }
+
+    private void CompressArchive(string _modPath)
+    {
+        string archivePath = xRepoPath.Text + "\\Archives";
+
+        if (!Directory.Exists(archivePath))
+        {
+            Directory.CreateDirectory(archivePath);
+        }
+
+        string archiveFileName = archivePath + "//" + xModName.Text + " v" + xModVersion.Text + ".zip";
+
+        if (File.Exists(archiveFileName))
+        {
+            File.Delete(archiveFileName);
+        }
+
+        ZipFile.CreateFromDirectory(_modPath, archiveFileName, CompressionLevel.Optimal, true);
     }
 
     private void RepoBrowsePath_Button_Click(object _sender, RoutedEventArgs _event)
@@ -180,7 +200,7 @@ public partial class MainWindow
             if (IsSilent)
             {
                 if (m_presetData.LoadLastPreset()) return;
-                
+
                 // All fields are not filled
                 CustomMessageBox.Display("Please ensure all fields are filled in the application before using silent mode", IsSilent);
                 Application.Current.Shutdown();
@@ -192,11 +212,11 @@ public partial class MainWindow
             }
         }
     }
-    
+
     private void Presets_SelectionChanged(object _sender, System.Windows.Controls.SelectionChangedEventArgs _e)
     {
         if (xPresets.SelectedItem == null) return;
-        
+
         string? selectedPreset = xPresets.SelectedItem.ToString();
         m_presetData.LoadPresetData(selectedPreset);
     }
