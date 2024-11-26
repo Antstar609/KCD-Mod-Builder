@@ -119,8 +119,9 @@ public partial class MainWindow
         {
             Directory.CreateDirectory(archivePath);
         }
-
-        string archiveFileName = archivePath + "//" + xModName.Text + " v" + xModVersion.Text + ".zip";
+        
+        string formatedName = xModName.Text.Replace(" ", "-");
+        string archiveFileName = archivePath + "//" + formatedName + "-v" + xModVersion.Text + ".zip";
 
         if (File.Exists(archiveFileName))
         {
