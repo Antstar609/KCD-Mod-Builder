@@ -17,7 +17,10 @@
 
 ## ⬇️ Installation
 
-- Download the latest release
+1. Download the latest release from the [releases page](https://github.com/Antstar609/KCD-Mod-Packer/releases).
+2. Extract the contents of the zip file.
+3. Ensure you have .NET 9.0 installed. If not, download it from [Microsoft's official site](https://dotnet.microsoft.com/download/dotnet/9.0).
+4. Run the `KCDModPacker.exe` file.
 
 ## 🚀 Usage
 
@@ -27,19 +30,3 @@
 4. **📑 Preset Selection:** You can easily select any previously saved preset from the dropdown menu for quick access.
 5. **🏗️ Create Mod Folder:** Click the "Run" button to create the mod folder and package the files.
 6. **🤫 Silent Mode:** For a faster process, you can run the app with the `-silent` parameter and specify a preset. If no preset is specified, the last used preset will be automatically applied.
-
-## 📝 License
-
-This tool is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.  
-You are free to:
-- **Use**: Use the tool for personal and non-commercial purposes.
-- **Share**: Copy and redistribute the tool in any medium or format.
-- **Adapt**: Remix, transform, and build upon the tool.
-
-Under the following terms:
-- **Attribution**: You must give appropriate credit, provide a link to the license, and indicate if changes were made.
-- **NonCommercial**: You may not use the tool for commercial purposes.
-- **ShareAlike**: If you remix, transform, or build upon the tool, you must distribute your contributions under the same license as the original.
-
-For more information, see the [full license](https://creativecommons.org/licenses/by-nc-sa/4.0/).  
-![CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
