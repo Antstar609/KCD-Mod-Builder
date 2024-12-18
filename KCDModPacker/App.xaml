@@ -5,9 +5,20 @@
              Startup="App_OnStartup">
     <Application.Resources>
         <ResourceDictionary>
+            <!-- Fluent Design -->
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Resources/Fluent.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- Tooltips -->
+            <ToolTip x:Key="PresetsTooltip" Content="To create a preset, run the app and it will be automatically created." />
+            <ToolTip x:Key="ModNameTooltip" Content="Enter the name of your mod. This will be used to identify your mod." />
+            <ToolTip x:Key="GamePathTooltip" Content="Specify the path to the 'Kingdom Come: Deliverance' game folder, where the game executable is located." />
+            <ToolTip x:Key="ModVersionTooltip" Content="Enter the version number of your mod to track updates." />
+            <ToolTip x:Key="ModifiesMapTooltip" Content="Check if your mod includes changes to the 'rataje' map." />
+            <ToolTip x:Key="AuthorTooltip" Content="Enter the name of the author or creator of the mod." />
+            <ToolTip x:Key="RunTooltip" Content="Click to create your mod folder and package it." />
+            <ToolTip x:Key="RepoPathTooltip" Content="Specify the path to your mod repository folder containing the source files." />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
