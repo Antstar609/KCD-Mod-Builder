@@ -22,6 +22,16 @@ public class PresetData(MainWindow _mainWindow)
                 _mainWindow.xPresets.Items.Add(value);
             }
         }
+
+        if (jsonFiles.Length <= 0)
+        {
+            _mainWindow.xPresets.Items.Add("No presets created");
+            _mainWindow.xPresets.SelectedIndex = 0;
+        }
+        else
+        {
+            _mainWindow.xPresets.Items.Remove("No presets created");
+        }
     }
     
     public bool PresetExists(string _presetName)

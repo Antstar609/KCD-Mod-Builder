@@ -3,6 +3,7 @@ using System.Windows;
 using System.IO;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -29,6 +30,7 @@ public partial class MainWindow
         m_presetData = new PresetData(this);
         m_modManifestWriter = new ModManifestWriter(this);
 
+        CheckCanRun();
         m_presetData.LoadAllPresets();
         m_presetData.LoadLastPreset();
     }
@@ -119,7 +121,7 @@ public partial class MainWindow
         {
             Directory.CreateDirectory(archivePath);
         }
-        
+
         string formatedName = xModName.Text.Replace(" ", "-");
         string archiveFileName = archivePath + "//" + formatedName + "-v" + xModVersion.Text + ".zip";
 
@@ -214,12 +216,33 @@ public partial class MainWindow
         }
     }
 
-    private void Presets_SelectionChanged(object _sender, System.Windows.Controls.SelectionChangedEventArgs _e)
+    
+    
+    private void CheckCanRun()
+    {
+        xRunButton.IsEnabled = !string.IsNullOrEmpty(xModName.Text)
+                               && !string.IsNullOrEmpty(xRepoPath.Text)
+                               && !string.IsNullOrEmpty(xGamePath.Text)
+                               && !string.IsNullOrEmpty(xModVersion.Text)
+                               && !string.IsNullOrEmpty(xAuthor.Text);
+    }
+
+    private void CheckCanRun(object _sender, TextChangedEventArgs _e)
+    {
+        CheckCanRun();
+    }
+
+    private void Presets_SelectionChanged(object _sender, SelectionChangedEventArgs _e)
     {
         if (xPresets.SelectedItem == null) return;
 
         string? selectedPreset = xPresets.SelectedItem.ToString();
         m_presetData.LoadPresetData(selectedPreset);
+
+        if (xPresets.SelectedItem.ToString() == "No presets created")
+        {
+            xPresets.IsEnabled = false;
+        }
     }
 
     [GeneratedRegex("[^0-9.]+")]
