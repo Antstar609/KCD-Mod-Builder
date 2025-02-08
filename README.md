@@ -4,7 +4,7 @@ KCD Mod Packer is a tool designed to convert your mod repository into a format t
 
 ## ⚙️ Requirements
 
-- Windows
+- Windows 10/11
 
 ## 🚀 Installation
 
