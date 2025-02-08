@@ -40,3 +40,7 @@ Libs
 Localization
 └── English
 ```
+
+## Screenshot
+
+![KCD-Mod-Packer-screenshot](https://github.com/user-attachments/assets/73f43715-46eb-480a-aee3-f437a89cbdbd)
