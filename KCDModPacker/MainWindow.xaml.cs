@@ -20,7 +20,8 @@ public partial class MainWindow
     private readonly ModManifestWriter m_modManifestWriter;
 
     private const string m_moddingEulaFileName = "\\modding_eula.txt";
-    private const string m_gameExePath = "\\Bin\\Win64\\KingdomCome.exe";
+    private const string m_gameExePath1 = "\\Bin\\Win64\\KingdomCome.exe";
+    private const string m_gameExePath2 = "\\Bin\\Win64MasterMasterSteamPGO\\KingdomCome.exe";
 
     public MainWindow()
     {
@@ -161,9 +162,10 @@ public partial class MainWindow
 
         // Check if the selected directory is a valid game path
         string? potentialGamePath = openFileDialog.FileName;
-        string exePath = potentialGamePath + m_gameExePath;
+        string exePath1 = potentialGamePath + m_gameExePath1;
+        string exePath2 = potentialGamePath + m_gameExePath2;
 
-        if (File.Exists(exePath))
+        if (File.Exists(exePath1) || File.Exists(exePath2))
         {
             xGamePath.Text = potentialGamePath;
         }
