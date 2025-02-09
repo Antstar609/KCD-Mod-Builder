@@ -27,7 +27,7 @@ KCD Mod Packer is a tool designed to convert your mod repository into a format t
 For your mod to work with KCD Mod Packer, your repository should follow this structure:
 
 **Note:** The tool only works with the `Data`, `Libs`, and `Localization` folders.  
-If your project has only the `Data` folder, it will be compressed.  
+If your project has only the `Data` folder or any combination of the three, they will be compressed.
 Any other folders won't be included.
 
 ```plaintext
