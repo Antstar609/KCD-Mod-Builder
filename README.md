@@ -2,6 +2,9 @@
 
 KCD Mod Packer is a tool designed to convert your mod repository into a format that *Kingdom Come: Deliverance* can read. It packages your folders into `.pak` files and sets up the folder structure.
 
+[![GitHub release](https://img.shields.io/github/release/Antstar609/KCD-Mod-Packer.svg)](https://github.com/Antstar609/KCD-Mod-Packer/releases/latest)
+[![Github All Releases](https://img.shields.io/github/downloads/Antstar609/KCD-Mod-Packer/total.svg)](https://github.com/Antstar609/KCD-Mod-Packer/releases/latest)
+
 ## ⚙️ Requirements
 
 - Windows 10/11
