@@ -30,6 +30,8 @@ For your mod to work with KCD Mod Packer, your repository should follow this str
 If your project has only the `Data` folder or any combination of the three, they will be compressed.
 Any other folders won't be included.
 
+**For now the `Objects` folder will not be included!**
+
 ### Exemple:
 ```plaintext
 Data
