@@ -45,12 +45,6 @@ Libs
     └── quest
         └── table.xml
 
-Objects
-└── characters
-    └── humans
-        └── cloth
-            └── material.mtl
-
 Localization
 └── English
     └── english.xml
