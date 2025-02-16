@@ -276,10 +276,14 @@ public partial class MainWindow : Window
 	}
 }
 
-public class NonSpecialCharTextBox : TextBox
+public partial class NonSpecialCharTextBox : TextBox
 {
 	protected override Type StyleKeyOverride => typeof(TextBox);
-	private readonly static Regex SpecialCharRegex = new(@"[^a-zA-Z0-9\s]", RegexOptions.Compiled);
+
+	[GeneratedRegex(@"[^a-zA-Z0-9\s]", RegexOptions.Compiled)]
+	private static partial Regex SpecialChar();
+
+	private readonly static Regex SpecialCharRegex = SpecialChar();
 
 	protected override void OnTextInput(TextInputEventArgs _event)
 	{
