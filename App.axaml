@@ -1,0 +1,20 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="KCDModBuilder.App"
+             RequestedThemeVariant="Default">
+
+	<Application.Styles>
+		<FluentTheme />
+		
+		<Style Selector="CheckBox">
+			<Setter Property="Foreground" Value="#7F7F7F" />
+		</Style>
+	</Application.Styles>
+
+	<Application.Resources>
+		<x:String x:Key="ModVersion">v1.5.1</x:String>
+		<FontFamily x:Key="1529ChampFleury">avares://KCDModBuilder/Assets/1529_Champ_Fleury.ttf#1529ChampFleuryW01-Regular</FontFamily>
+		<SolidColorBrush x:Key="AccentColor" Color="#80000000" />
+	</Application.Resources>
+
+</Application>

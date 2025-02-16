@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:kcdModBuilder="clr-namespace:KCDModBuilder"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="KCDModBuilder.MainWindow"
+        Title="KCD Mod Builder"
+        Icon="avares://KCDModBuilder/Assets/icon.ico"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" CanResize="False">
+
+	<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="15">
+
+		<StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+			<TextBlock Text="KCD Mod Builder" FontFamily="{StaticResource 1529ChampFleury}" FontSize="20" FontWeight="ExtraBold" VerticalAlignment="Center" TextDecorations="Underline" Margin="20,5,0,0" />
+			<TextBlock Text="v2.0.0" FontWeight="ExtraBold" FontSize="10" VerticalAlignment="Top" />
+
+			<TextBlock Text="Presets" FontWeight="Bold" VerticalAlignment="Center" Margin="40,0,10,0" />
+			<ComboBox Name="xPresets" SelectionChanged="Presets_SelectionChanged" Width="200" VerticalContentAlignment="Bottom" />
+			<Button Content="Delete" Click="DeletePreset_Click" Margin="10,0,0,0" />
+		</StackPanel>
+		<Separator Margin="0,10,0,20" />
+
+		<kcdModBuilder:NonSpecialCharTextBox Name="xModName" Watermark="Mod Name" TextChanged="CheckCanRun" Width="250" Margin="0,0,0,10" />
+
+		<TextBox Name="xGamePath" Watermark="Game Path" TextChanged="CheckCanRun" IsReadOnly="True" Width="450" Margin="0,10,0,10">
+			<TextBox.InnerRightContent>
+				<Button Content="Browse" Click="GameBrowsePath_Click" />
+			</TextBox.InnerRightContent>
+		</TextBox>
+
+		<TextBox Name="xProjectPath" Watermark="Project Path" TextChanged="CheckCanRun" IsReadOnly="True" Width="450" Margin="0,10,0,10">
+			<TextBox.InnerRightContent>
+				<Button Content="Browse" Click="ProjectBrowsePath_Click" />
+			</TextBox.InnerRightContent>
+		</TextBox>
+
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+			<kcdModBuilder:NonSpecialCharTextBox Name="xAuthor" Watermark="Author" TextChanged="CheckCanRun" Width="150" Margin="0,10,10,0" />
+			<kcdModBuilder:NumbersOnlyTextBox Name="xModVersion" Watermark="Version" TextChanged="CheckCanRun" Width="100" Margin="10,10,10,0" />
+			<CheckBox Name="xIsMapModified" Content="Modifies Map?" Margin="10,10,0,0" />
+		</StackPanel>
+
+		<Separator Margin="0,20,0,15" />
+		<Button Name="xRunButton" Content="Run" Click="Run_Click"
+		        FontWeight="Bold" FontSize="20" Width="200" Height="40"
+		        HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+	</StackPanel>
+</Window>
