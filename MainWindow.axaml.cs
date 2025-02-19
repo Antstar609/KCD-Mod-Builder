@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -40,7 +41,7 @@ public partial class MainWindow : Window
 
 		Directory.CreateDirectory(modPath);
 		CopyModdingEula(modPath);
-		if (!ZipDirectories(modPath)) return;
+		ZipDirectories(modPath);
 
 		m_modManifestWriter.WriteModManifest();
 		CompressArchive(modPath);
@@ -67,50 +68,53 @@ public partial class MainWindow : Window
 		resourceStream.CopyTo(fileStream);
 	}
 
-	private bool ZipDirectories(string _modPath)
+	private void ZipDirectories(string _modPath)
 	{
-		// Copy the data folder and zip it
-		string[] directories = Directory.GetDirectories(xProjectPath.Text);
-		bool isDataZipped = false;
-		bool isLocalizationZipped = false;
-		bool isTablesZipped = false;
+		var dataDir = Directory.CreateDirectory(Path.Combine(_modPath, "Data"));
+		string zipFilePath = Path.Combine(dataDir.FullName, xModName.Text.Replace(" ", "_").ToLower() + ".pak");
+		var projectDirs = Directory.GetDirectories(xProjectPath.Text);
 
-		foreach (string directoryName in directories)
+		string[] allowedFolders =
 		{
-			if (directoryName.Contains("Data") && !isDataZipped)
+			"Scripts", "Objects", "Libs", "Entities"
+		};
+
+		using ZipArchive archive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create);
+		foreach (var dir in projectDirs)
+		{
+			string dirName = Path.GetFileName(dir);
+
+			if (allowedFolders.Contains(dirName, StringComparer.OrdinalIgnoreCase))
 			{
-				Directory.CreateDirectory(Path.Combine(_modPath, "Data"));
-				string dataDataPak = Path.Combine(_modPath, "Data", "Data.pak");
-				ZipFile.CreateFromDirectory(directoryName, dataDataPak, CompressionLevel.Optimal, false);
-				isDataZipped = true;
+				AddDirectoryContentsToZip(archive, dir, dirName);
 			}
 
-			if (directoryName.Contains("Libs") && !isTablesZipped)
+			if (!dir.Contains("Localization")) continue;
+
+			var localizationPath = Directory.CreateDirectory(Path.Combine(_modPath, "Localization"));
+			string[] localizationDirectories = Directory.GetDirectories(Path.GetFullPath(dir));
+			foreach (string languageDir in localizationDirectories)
 			{
-				string dataTablesPak = Path.Combine(_modPath, "Data", "Tables.pak");
-				ZipFile.CreateFromDirectory(directoryName, dataTablesPak, CompressionLevel.Optimal, true);
-				isTablesZipped = true;
+				string languagePath = Path.Combine(localizationPath.FullName, Path.GetFileName(languageDir) + "_xml.pak");
+				ZipFile.CreateFromDirectory(languageDir, languagePath, CompressionLevel.Optimal, false);
 			}
+		}
+	}
 
-			if (directoryName.Contains("Localization") && !isLocalizationZipped)
-			{
-				Directory.CreateDirectory(Path.Combine(_modPath, "Localization"));
-				string[] localizationDirectories = Directory.GetDirectories(directoryName);
-
-				foreach (string localizationDirectory in localizationDirectories)
-				{
-					string localizationPath = Path.Combine(_modPath, "Localization", Path.GetFileName(localizationDirectory) + "_xml.pak");
-					ZipFile.CreateFromDirectory(localizationDirectory, localizationPath, CompressionLevel.Optimal, false);
-				}
-
-				isLocalizationZipped = true;
-			}
-
-			if (isDataZipped && isLocalizationZipped && isTablesZipped)
-				break;
+	private void AddDirectoryContentsToZip(ZipArchive _archive, string _sourceDir, string _entryPath)
+	{
+		foreach (var file in Directory.GetFiles(_sourceDir))
+		{
+			string entryName = Path.Combine(_entryPath, Path.GetFileName(file));
+			_archive.CreateEntryFromFile(file, entryName);
 		}
 
-		return true;
+		foreach (var subDir in Directory.GetDirectories(_sourceDir))
+		{
+			string subDirName = Path.GetFileName(subDir);
+			string newEntryPath = Path.Combine(_entryPath, subDirName);
+			AddDirectoryContentsToZip(_archive, subDir, newEntryPath);
+		}
 	}
 
 	private void CompressArchive(string _modPath)
