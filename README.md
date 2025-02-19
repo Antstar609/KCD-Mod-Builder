@@ -34,16 +34,23 @@ Any other folders won't be included.
 
 ### Exemple:
 ```plaintext
-Data
-├── Entities
-│   └── entity.ent
-└── Scripts
-    └── script.lua
+
+Entities
+└── entity.ent
+
+Scripts
+└── script.lua
 
 Libs
 └── Tables
     └── quest
         └── table.xml
+
+Objects
+└── characters
+    └── humans
+        └── cloth
+            └── material.mtl
 
 Localization
 └── English
