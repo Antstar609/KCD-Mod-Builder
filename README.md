@@ -24,11 +24,9 @@ KCD Mod Builder is a tool designed to convert your mod repository into a format 
 
 ## Repository Structure
 
-For your mod to work with KCD Mod Builder, your repository should follow this structure:
+To ensure compatibility with KCD Mod Builder, organize your mod's repository to include any of the following folders: `Scripts`, `Libs`, `Entities`, `Objects`, and `Localization`. The tool will compress any combination of these folders present in your project. Folders not listed above will be excluded from the compression process.
 
-**Note:** The tool only works with the `Scripts`, `Libs`, `Entities`, `Objects` and `Localization` folders.
-If your project has only the `Objects` folder or any combination of the specified folders, they will be compressed.
-Any other folders won't be included.
+**Note:** The provided example below demonstrates a possible folder structure. However, your project does not need to include all these folders; having just one is sufficient for the tool to function correctly.
 
 ### Exemple:
 ```plaintext
