@@ -55,3 +55,7 @@ Localization
 └── English
     └── english.xml
 ```
+
+## Screenshot
+
+![KCD-Mod-Builder-screenshot](https://github.com/user-attachments/assets/86c3e404-6ea6-426d-9c4b-10a174cd9201)
