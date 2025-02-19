@@ -1,6 +1,6 @@
 # KCD Mod Builder
 
-KCD Mod Builder is a tool designed to convert your mod project folder into a format that Kingdom Come: Deliverance 1/2 can read. It packages your folders into yourmodname.pak, sets up the folder structure, and all you have to do is start the game to try it!
+KCD Mod Builder is a tool designed to convert your mod project folder into a format that Kingdom Come: Deliverance 1/2 can read. It packages your folders into `yourmodname.pak`, sets up the folder structure, and all you have to do is start the game to try it!
 
 [![GitHub release](https://img.shields.io/github/release/Antstar609/KCD-Mod-Builder.svg)](https://github.com/Antstar609/KCD-Mod-Builder/releases/latest)
 [![Github All Releases](https://img.shields.io/github/downloads/Antstar609/KCD-Mod-Builder/total.svg)](https://github.com/Antstar609/KCD-Mod-Builder/releases/latest)
