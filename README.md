@@ -21,7 +21,7 @@ KCD Mod Builder is a tool designed to convert your mod project folder into a for
 - **Silent Mode:** Run the tool with the `-silent` parameter in the terminal. Use one of the following syntaxes:
   - `KCDModBuilder.exe -silent PresetName` – to run with a specific preset.
   - `KCDModBuilder.exe -silent` – to run with the last preset used.
-- **Manifest File Creation:** The tool generates a `mod.manifest` file.
+- **Manifest File Creation:** The tool generates the `mod.manifest` file.
 - **EULA File Copying:** The tool copies the `modding_eula.txt` file, ensuring compliance with the game's End User License Agreement.
 
 ## Repository Structure
